@@ -1,6 +1,7 @@
 "use client";
 
 import ActionCard from "@/components/ActionCard";
+import LoaderUI from "@/components/LoaderUI";
 import { QUICK_ACTIONS } from "@/constants";
 import { useUserRole } from "@/hooks/useUserRole";
 import { useQuery } from "convex/react";
@@ -33,7 +34,7 @@ export default function Home() {
     }
   };
 
-  if (isLoading) return <p>...Loading</p>;
+  if (isLoading) return <LoaderUI />;
 
   return (
     <div className="container max-w-7xl mx-auto p-6">
