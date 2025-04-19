@@ -76,25 +76,7 @@ function Navbar() {
             </div>
           </SignedIn>
 
-          <SignedOut>
-            <div className="flex items-center space-x-3 ml-6 border-l border-border/60 pl-6">
-              <SignInButton>
-                <Button variant="ghost" className="hover:bg-muted font-medium">
-                  Sign in
-                </Button>
-              </SignInButton>
-
-              <SignUpButton>
-                <Button
-                  variant="default"
-                  className="bg-emerald-600 hover:bg-emerald-700 text-white font-medium"
-                >
-                  Sign up
-                </Button>
-              </SignUpButton>
-              <ModeToggle />
-            </div>
-          </SignedOut>
+      
         </div>
       </div>
 
@@ -134,30 +116,7 @@ function Navbar() {
             </div>
           </SignedIn>
 
-          <SignedOut>
-            <div className="pt-4 border-t border-border/40 flex flex-col space-y-3">
-              <SignInButton>
-                <Button
-                  variant="ghost"
-                  className="w-full justify-center hover:bg-muted font-medium"
-                >
-                  Sign in
-                </Button>
-              </SignInButton>
-
-              <SignUpButton>
-                <Button
-                  variant="default"
-                  className="w-full justify-center bg-emerald-600 hover:bg-emerald-700 text-white font-medium"
-                >
-                  Sign up
-                </Button>
-              </SignUpButton>
-              <div className="flex justify-end pt-2">
-                <ModeToggle />
-              </div>
-            </div>
-          </SignedOut>
+      
         </div>
       )}
     </nav>
