@@ -1,18 +1,15 @@
 import Navbar from "@/components/Navbar";
 import ConvexClerkProvider from "@/components/providers/ConvexClerkProvider";
-import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
-import "./globals.css";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
 import { RedirectToSignIn, SignedIn, SignedOut } from "@clerk/nextjs";
+import type { Metadata } from "next";
+import "@stream-io/video-react-sdk/dist/css/styles.css";
+import "./globals.css";
+import { Comfortaa } from "next/font/google";
+import { Toaster } from "react-hot-toast";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const comfortaa = Comfortaa({
+  variable: "--font-comfortaa",
   subsets: ["latin"],
 });
 
@@ -29,9 +26,7 @@ export default function RootLayout({
   return (
     <ConvexClerkProvider>
       <html lang="en" suppressHydrationWarning>
-        <body
-          className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-        >
+        <body className={`${comfortaa.variable} antialiased`}>
           <ThemeProvider
             attribute="class"
             defaultTheme="system"
@@ -49,6 +44,7 @@ export default function RootLayout({
               <RedirectToSignIn />
             </SignedOut>
           </ThemeProvider>
+          <Toaster />
         </body>
       </html>
     </ConvexClerkProvider>
