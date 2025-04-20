@@ -1,7 +1,6 @@
 import { useCall, useCallStateHooks } from "@stream-io/video-react-sdk";
 import { useMutation, useQuery } from "convex/react";
 import { useRouter } from "next/navigation";
-import React from "react";
 import { api } from "../../convex/_generated/api";
 import { Button } from "./ui/button";
 import toast from "react-hot-toast";

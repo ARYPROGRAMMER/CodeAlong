@@ -46,10 +46,10 @@ function CodeEditor() {
       direction="vertical"
     >
       <ResizablePanel defaultSize={50}>
-        <ScrollArea className="h-full bg-background/30 backdrop-blur-sm">
+        <ScrollArea className="h-full bg-background/40 backdrop-blur-sm transition-all duration-300">
           <div className="p-4 sm:p-6">
             <div className="max-w-4xl mx-auto space-y-5">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-background/60 p-4 rounded-xl shadow-sm border border-border/20">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-background/70 p-4 rounded-xl shadow-sm border border-border/30 hover:shadow-md transition-all duration-300 hover:border-border/50">
                 <div className="space-y-1">
                   <div className="flex items-center gap-2">
                     <h2 className="text-xl sm:text-2xl font-semibold tracking-tight font-comfortaa bg-gradient-to-r from-primary/90 to-primary bg-clip-text text-transparent">
@@ -65,7 +65,7 @@ function CodeEditor() {
                     value={selectedQuestion.id}
                     onValueChange={handleQuestionChange}
                   >
-                    <SelectTrigger className="w-[180px] border-border/30 bg-background/80 hover:bg-background/95 transition-colors">
+                    <SelectTrigger className="w-[180px] border-border/30 bg-background/80 hover:bg-background/95 transition-colors shadow-sm hover:shadow">
                       <SelectValue placeholder="Select question" />
                     </SelectTrigger>
                     <SelectContent className="bg-background/95 backdrop-blur-md border-border/30">
@@ -78,7 +78,7 @@ function CodeEditor() {
                   </Select>
 
                   <Select value={language} onValueChange={handleLanguageChange}>
-                    <SelectTrigger className="w-[150px] border-border/30 bg-background/80 hover:bg-background/95 transition-colors">
+                    <SelectTrigger className="w-[150px] border-border/30 bg-background/80 hover:bg-background/95 transition-colors shadow-sm hover:shadow">
                       <SelectValue>
                         <div className="flex items-center gap-2">
                           <img
@@ -90,7 +90,6 @@ function CodeEditor() {
                         </div>
                       </SelectValue>
                     </SelectTrigger>
-
                     <SelectContent className="bg-background/95 backdrop-blur-md border-border/30">
                       {LANGUAGES.map((lang) => (
                         <SelectItem key={lang.id} value={lang.id}>
@@ -109,7 +108,7 @@ function CodeEditor() {
                 </div>
               </div>
 
-              <Card className="border-border/30 shadow-md hover:shadow-lg transition-shadow bg-background/60 backdrop-blur-sm">
+              <Card className="border-border/30 shadow-md hover:shadow-lg transition-all duration-300 bg-background/70 backdrop-blur-sm">
                 <CardHeader className="flex flex-row items-center gap-2 pb-3 border-b border-border/10">
                   <BookIcon className="h-5 w-5 text-primary" />
                   <CardTitle className="font-comfortaa">Problem Description</CardTitle>
@@ -123,21 +122,21 @@ function CodeEditor() {
                 </CardContent>
               </Card>
 
-              <Card className="border-border/30 shadow-md hover:shadow-lg transition-shadow bg-background/60 backdrop-blur-sm">
+              <Card className="border-border/30 shadow-md hover:shadow-lg transition-all duration-300 bg-background/70 backdrop-blur-sm">
                 <CardHeader className="flex flex-row items-center gap-2 pb-3 border-b border-border/10">
                   <LightbulbIcon className="h-5 w-5 text-yellow-500" />
                   <CardTitle className="font-comfortaa">Examples</CardTitle>
                 </CardHeader>
                 <CardContent className="pt-4">
-                  <ScrollArea className="h-full w-full rounded-md border border-border/30 bg-background/40">
+                  <ScrollArea className="h-full w-full rounded-md border border-border/30 bg-background/50 hover:bg-background/60 transition-all duration-300">
                     <div className="p-4 space-y-4">
                       {selectedQuestion.examples.map((example, index) => (
-                        <div key={index} className="space-y-2">
+                        <div key={index} className="space-y-2 transition-all duration-300 hover:translate-x-0.5">
                           <p className="font-medium text-sm text-primary/90">
                             Example {index + 1}:
                           </p>
                           <ScrollArea className="h-full w-full rounded-md">
-                            <pre className="bg-muted/70 p-3 rounded-lg text-sm font-mono shadow-sm">
+                            <pre className="bg-muted/70 p-3 rounded-lg text-sm font-mono shadow-sm hover:shadow transition-all duration-300">
                               <div className="text-blue-400/90">Input: <span className="text-foreground/90">{example.input}</span></div>
                               <div className="text-green-500/90">Output: <span className="text-foreground/90">{example.output}</span></div>
                               {example.explanation && (
@@ -157,7 +156,7 @@ function CodeEditor() {
               </Card>
 
               {selectedQuestion.constraints && (
-                <Card className="border-border/30 shadow-md hover:shadow-lg transition-shadow bg-background/60 backdrop-blur-sm">
+                <Card className="border-border/30 shadow-md hover:shadow-lg transition-all duration-300 bg-background/70 backdrop-blur-sm">
                   <CardHeader className="flex flex-row items-center gap-2 pb-3 border-b border-border/10">
                     <AlertCircleIcon className="h-5 w-5 text-blue-500" />
                     <CardTitle className="font-comfortaa">Constraints</CardTitle>
@@ -165,7 +164,7 @@ function CodeEditor() {
                   <CardContent className="pt-4">
                     <ul className="list-disc list-inside space-y-1.5 text-sm marker:text-primary/60">
                       {selectedQuestion.constraints.map((constraint, index) => (
-                        <li key={index} className="text-muted-foreground">
+                        <li key={index} className="text-muted-foreground hover:text-muted-foreground/90 transition-colors duration-300">
                           {constraint}
                         </li>
                       ))}
@@ -178,12 +177,13 @@ function CodeEditor() {
         </ScrollArea>
       </ResizablePanel>
 
-      <ResizableHandle withHandle className="bg-border/40 hover:bg-primary/30 transition-colors" />
+      <ResizableHandle withHandle className="bg-border/40 hover:bg-primary/30 transition-colors hover:scale-y-105" />
 
       <ResizablePanel defaultSize={50} minSize={30} className="border-t border-border/30">
         <div className="h-full relative bg-zinc-900/95">
-          <div className="absolute top-0 left-0 right-0 bg-zinc-800/70 p-2.5 flex justify-between items-center z-10 border-b border-border/30">
-            <span className="text-xs font-medium text-zinc-300 px-1.5">
+          <div className="absolute top-0 left-0 right-0 bg-zinc-800/90 p-2.5 flex justify-between items-center z-10 border-b border-border/30">
+            <span className="text-xs font-medium text-zinc-300 px-1.5 flex items-center gap-1.5">
+              <div className="size-2 rounded-full bg-primary/80 animate-pulse"></div>
               {language === "javascript" ? "JavaScript" : language === "python" ? "Python" : "Java"} Editor
             </span>
             <div className="flex items-center gap-2">
@@ -211,6 +211,9 @@ function CodeEditor() {
                 fontFamily: "'JetBrains Mono', 'Fira Code', Menlo, Monaco, 'Courier New', monospace",
                 fontLigatures: true,
                 renderLineHighlight: "all",
+                smoothScrolling: true,
+                cursorBlinking: "smooth",
+                cursorSmoothCaretAnimation: "on"
               }}
               className="editor-container"
             />
