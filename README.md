@@ -1,36 +1,101 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# CodeAlong
+
+CodeAlong is an interactive platform for conducting technical interviews with real-time code collaboration, video meetings, and scheduling capabilities.
+
+## Features
+
+- **Video Interviews**: Start instant calls or join scheduled interviews
+- **Code Collaboration**: Real-time code editor with support for multiple programming languages
+- **Interview Scheduling**: Plan and manage upcoming interviews
+- **Recording Access**: Review past interviews and coding sessions
+- **Dashboard Management**: Comprehensive admin dashboard
+
+## Tech Stack
+
+- [Next.js 15](https://nextjs.org/) - React framework with App Router
+- [Convex](https://www.convex.dev/) - Backend database and real-time state management
+- [Stream Video](https://getstream.io/video/) - Video call functionality
+- [Clerk](https://clerk.com/) - Authentication and user management
+- [Tailwind CSS](https://tailwindcss.com/) - Styling with Shadcn UI components
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- Node.js 18.17.0 or later
+- npm, yarn, pnpm, or bun
+- Convex account
+- Clerk account
+- Stream account
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Environment Setup
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1. Clone this repository
+2. Copy the `.env.example` file to `.env.local` and fill in the required values:
+   ```bash
+   cp env.example .env.local
+   ```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+3. Install dependencies:
+   ```bash
+   npm install
+   # or
+   yarn install
+   # or
+   pnpm install
+   # or
+   bun install
+   ```
+
+4. Start the development server:
+   ```bash
+   npm run dev
+   # or
+   yarn dev
+   # or
+   pnpm dev
+   # or
+   bun dev
+   ```
+
+5. Open [http://localhost:3000](http://localhost:3000) with your browser to see the application.
+
+### Convex Setup
+
+This project uses Convex for the backend. To set up Convex:
+
+1. Initialize Convex (if not already done):
+   ```bash
+   npx convex dev
+   ```
+
+2. Use the Convex functions in your components as shown in the example:
+   ```tsx
+   // Query example
+   const data = useQuery(api.functions.myQueryFunction, {
+     first: 10,
+     second: "hello",
+   });
+
+   // Mutation example
+   const mutation = useMutation(api.functions.myMutationFunction);
+   
+   function handleButtonPress() {
+     mutation({ first: "Hello!", second: "me" });
+   }
+   ```
+
+## Deployment
+
+The recommended way to deploy this application is using the [Vercel Platform](https://vercel.com/new).
+
+1. Push your code to a GitHub repository
+2. Import the project to Vercel
+3. Configure environment variables
+4. Deploy
 
 ## Learn More
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- [Next.js Documentation](https://nextjs.org/docs)
+- [Convex Documentation](https://docs.convex.dev)
+- [Stream Video Documentation](https://getstream.io/video/docs/)

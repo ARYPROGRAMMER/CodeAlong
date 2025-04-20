@@ -1,5 +1,11 @@
 import { clsx, type ClassValue } from "clsx";
-import { addHours, intervalToDuration, isAfter, isBefore, isWithinInterval } from "date-fns";
+import {
+  addHours,
+  intervalToDuration,
+  isAfter,
+  isBefore,
+  isWithinInterval,
+} from "date-fns";
 import { twMerge } from "tailwind-merge";
 import { Doc } from "../../convex/_generated/dataModel";
 
@@ -57,7 +63,10 @@ export const getInterviewerInfo = (users: User[], interviewerId: string) => {
   };
 };
 
-export const calculateRecordingDuration = (startTime: string, endTime: string) => {
+export const calculateRecordingDuration = (
+  startTime: string,
+  endTime: string
+) => {
   const start = new Date(startTime);
   const end = new Date(endTime);
 
@@ -87,7 +96,8 @@ export const getMeetingStatus = (interview: Interview) => {
     interview.status === "succeeded"
   )
     return "completed";
-  if (isWithinInterval(now, { start: interviewStartTime, end: endTime })) return "live";
+  if (isWithinInterval(now, { start: interviewStartTime, end: endTime }))
+    return "live";
   if (isBefore(now, interviewStartTime)) return "upcoming";
   return "completed";
 };
