@@ -1,11 +1,10 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import { DialogTitle } from "@radix-ui/react-dialog";
 import { VideoIcon } from "lucide-react";
 import { useState } from "react";
 import { Button } from "./ui/button";
-import { Dialog, DialogContent, DialogHeader } from "./ui/dialog";
+import { Dialog, DialogContent, DialogHeader ,DialogTitle } from "./ui/dialog";
 import { Input } from "./ui/input";
 import useMeetingActions from "@/hooks/useMeetingActions";
 
