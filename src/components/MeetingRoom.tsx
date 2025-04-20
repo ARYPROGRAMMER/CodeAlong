@@ -24,6 +24,7 @@ import {
 } from "./ui/dropdown-menu";
 import { Button } from "./ui/button";
 import { LayoutListIcon, UsersIcon } from "lucide-react";
+import EndCallButton from "./EndCallButton";
 
 function MeetingRoom() {
   const [layout, setLayout] = useState<"grid" | "speaker">("speaker");
@@ -87,7 +88,7 @@ function MeetingRoom() {
                     <UsersIcon className="size-4" />
                   </Button>
 
-                  <button>end call</button>
+                  <EndCallButton />
                 </div>
               </div>
             </div>
