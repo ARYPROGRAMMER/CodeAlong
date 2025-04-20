@@ -27,7 +27,33 @@ import {
 import { format } from "date-fns";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import CommentDialog from "@/components/CommentDialog";
+import { motion } from "framer-motion";
+
 type Interview = Doc<"interviews">;
+
+// Animation variants
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1,
+    },
+  },
+};
+
+const itemVariants = {
+  hidden: { y: 20, opacity: 0 },
+  visible: {
+    y: 0,
+    opacity: 1,
+    transition: {
+      type: "spring",
+      stiffness: 100,
+    },
+  },
+};
+
 function DashboardPage() {
   const users = useQuery(api.users.getUsers);
   const interviews = useQuery(api.inteviews.getAllInterviews);
@@ -50,28 +76,61 @@ function DashboardPage() {
   const groupedInterviews = groupInterviews(interviews);
 
   return (
-    <div className="container mx-auto py-10">
-      <div className="flex items-center mb-8">
+    <motion.div
+      className="container mx-auto py-10"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.5 }}
+    >
+      <motion.div
+        className="flex items-center mb-8"
+        initial={{ y: -20, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ delay: 0.2 }}
+      >
         <Link href="/schedule">
           <Button>Schedule New Interview</Button>
         </Link>
-      </div>
+      </motion.div>
 
       <div className="space-y-8">
         {INTERVIEW_CATEGORY.map(
-          (category) =>
+          (category, categoryIndex) =>
             groupedInterviews[category.id]?.length > 0 && (
-              <section key={category.id}>
+              <motion.section
+                key={category.id}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.2 * categoryIndex }}
+              >
                 <div className="flex items-center gap-2 mb-4">
-                  <h2 className="text-xl font-semibold">{category.title}</h2>
-                  <Badge variant={category.variant}>
-                    {groupedInterviews[category.id].length}
-                  </Badge>
+                  <motion.h2
+                    className="text-xl font-semibold"
+                    initial={{ x: -20, opacity: 0 }}
+                    animate={{ x: 0, opacity: 1 }}
+                    transition={{ delay: 0.3 * categoryIndex }}
+                  >
+                    {category.title}
+                  </motion.h2>
+                  <motion.div
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    transition={{ delay: 0.4 * categoryIndex }}
+                  >
+                    <Badge variant={category.variant}>
+                      {groupedInterviews[category.id].length}
+                    </Badge>
+                  </motion.div>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <motion.div
+                  className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"
+                  variants={containerVariants}
+                  initial="hidden"
+                  animate="visible"
+                >
                   {groupedInterviews[category.id].map(
-                    (interview: Interview) => {
+                    (interview: Interview, index: number) => {
                       const candidateInfo = getCandidateInfo(
                         users,
                         interview.candidateId
@@ -79,78 +138,115 @@ function DashboardPage() {
                       const startTime = new Date(interview.startTime);
 
                       return (
-                        <Card className="hover:shadow-md transition-all">
-                          <CardHeader className="p-4">
-                            <div className="flex items-center gap-3">
-                              <Avatar className="h-10 w-10">
-                                <AvatarImage src={candidateInfo.image} />
-                                <AvatarFallback>
-                                  {candidateInfo.initials}
-                                </AvatarFallback>
-                              </Avatar>
-                              <div>
-                                <CardTitle className="text-base">
-                                  {candidateInfo.name}
-                                </CardTitle>
-                                <p className="text-sm text-muted-foreground">
-                                  {interview.title}
-                                </p>
-                              </div>
-                            </div>
-                          </CardHeader>
-
-                          <CardContent className="p-4">
-                            <div className="flex items-center gap-4 text-sm text-muted-foreground">
-                              <div className="flex items-center gap-1">
-                                <CalendarIcon className="h-4 w-4" />
-                                {format(startTime, "MMM dd")}
-                              </div>
-                              <div className="flex items-center gap-1">
-                                <ClockIcon className="h-4 w-4" />
-                                {format(startTime, "hh:mm a")}
-                              </div>
-                            </div>
-                          </CardContent>
-
-                          <CardFooter className="p-4 pt-0 flex flex-col gap-3">
-                            {interview.status === "completed" && (
-                              <div className="flex gap-2 w-full">
-                                <Button
-                                  className="flex-1"
-                                  onClick={() =>
-                                    handleStatusUpdate(
-                                      interview._id,
-                                      "succeeded"
-                                    )
-                                  }
+                        <motion.div
+                          key={interview._id.toString()}
+                          variants={itemVariants}
+                          whileHover={{ scale: 1.02 }}
+                          whileTap={{ scale: 0.98 }}
+                        >
+                          <Card className="hover:shadow-md transition-all">
+                            <CardHeader className="p-4">
+                              <div className="flex items-center gap-3">
+                                <motion.div
+                                  whileHover={{ scale: 1.1 }}
+                                  transition={{ type: "spring" }}
                                 >
-                                  <CheckCircle2Icon className="h-4 w-4 mr-2" />
-                                  Pass
-                                </Button>
-                                <Button
-                                  variant="destructive"
-                                  className="flex-1"
-                                  onClick={() =>
-                                    handleStatusUpdate(interview._id, "failed")
-                                  }
-                                >
-                                  <XCircleIcon className="h-4 w-4 mr-2" />
-                                  Fail
-                                </Button>
+                                  <Avatar className="h-10 w-10">
+                                    <AvatarImage src={candidateInfo.image} />
+                                    <AvatarFallback>
+                                      {candidateInfo.initials}
+                                    </AvatarFallback>
+                                  </Avatar>
+                                </motion.div>
+                                <div>
+                                  <CardTitle className="text-base">
+                                    {candidateInfo.name}
+                                  </CardTitle>
+                                  <p className="text-sm text-muted-foreground">
+                                    {interview.title}
+                                  </p>
+                                </div>
                               </div>
-                            )}
-                            <CommentDialog interviewId={interview._id} />
-                          </CardFooter>
-                        </Card>
+                            </CardHeader>
+
+                            <CardContent className="p-4">
+                              <div className="flex items-center gap-4 text-sm text-muted-foreground">
+                                <div className="flex items-center gap-1">
+                                  <motion.div
+                                    whileHover={{ rotate: 15 }}
+                                    transition={{ type: "spring" }}
+                                  >
+                                    <CalendarIcon className="h-4 w-4" />
+                                  </motion.div>
+                                  {format(startTime, "MMM dd")}
+                                </div>
+                                <div className="flex items-center gap-1">
+                                  <motion.div
+                                    whileHover={{ rotate: 15 }}
+                                    transition={{ type: "spring" }}
+                                  >
+                                    <ClockIcon className="h-4 w-4" />
+                                  </motion.div>
+                                  {format(startTime, "hh:mm a")}
+                                </div>
+                              </div>
+                            </CardContent>
+
+                            <CardFooter className="p-4 pt-0 flex flex-col gap-3">
+                              {interview.status === "completed" && (
+                                <div className="flex gap-2 w-full">
+                                  <motion.div
+                                    whileHover={{ y: -3 }}
+                                    whileTap={{ scale: 0.95 }}
+                                    className="flex-1"
+                                  >
+                                    <Button
+                                      className="w-full"
+                                      onClick={() =>
+                                        handleStatusUpdate(
+                                          interview._id,
+                                          "succeeded"
+                                        )
+                                      }
+                                    >
+                                      <CheckCircle2Icon className="h-4 w-4 mr-2" />
+                                      Pass
+                                    </Button>
+                                  </motion.div>
+                                  <motion.div
+                                    whileHover={{ y: -3 }}
+                                    whileTap={{ scale: 0.95 }}
+                                    className="flex-1"
+                                  >
+                                    <Button
+                                      variant="destructive"
+                                      className="w-full"
+                                      onClick={() =>
+                                        handleStatusUpdate(
+                                          interview._id,
+                                          "failed"
+                                        )
+                                      }
+                                    >
+                                      <XCircleIcon className="h-4 w-4 mr-2" />
+                                      Fail
+                                    </Button>
+                                  </motion.div>
+                                </div>
+                              )}
+                              <CommentDialog interviewId={interview._id} />
+                            </CardFooter>
+                          </Card>
+                        </motion.div>
                       );
                     }
                   )}
-                </div>
-              </section>
+                </motion.div>
+              </motion.section>
             )
         )}
       </div>
-    </div>
+    </motion.div>
   );
 }
 
