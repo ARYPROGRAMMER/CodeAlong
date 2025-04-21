@@ -35,7 +35,13 @@ function MeetingCard({ interview }: { interview: Interview }) {
     const diffMs = meetingStart.getTime() - now.getTime();
     const diffMins = Math.round(diffMs / 60000);
 
-    if (diffMins < 60) return `In ${diffMins} minutes`;
+    if (diffMins < 60) {
+      if (diffMins != 1) {
+        return `In ${diffMins} minutes`;
+      } else {
+        return `In ${diffMins} minute`;
+      }
+    }
     const diffHours = Math.floor(diffMins / 60);
     if (diffHours < 24) return `In ${diffHours} hours`;
     const diffDays = Math.floor(diffHours / 24);

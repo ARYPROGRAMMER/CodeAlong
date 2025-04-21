@@ -4,12 +4,14 @@ import { useRouter } from "next/navigation";
 import { api } from "../../convex/_generated/api";
 import { Button } from "./ui/button";
 import toast from "react-hot-toast";
+import { useState } from "react";
 
 function EndCallButton() {
   const call = useCall();
   const router = useRouter();
   const { useLocalParticipant } = useCallStateHooks();
   const localParticipant = useLocalParticipant();
+  const [isEnding, setIsEnding] = useState(false);
 
   const updateInterviewStatus = useMutation(
     api.inteviews.updateInterviewStatus
@@ -26,24 +28,42 @@ function EndCallButton() {
   if (!isMeetingOwner) return null;
 
   const endCall = async () => {
+    if (isEnding) return; // Prevent multiple clicks
+
     try {
-      await call.endCall();
-      await updateInterviewStatus({
-        id: interview._id,
-        status: "completed",
-      });
+      setIsEnding(true);
+      toast.loading("Ending meeting...");
 
       router.push("/");
-      toast.success("Meeting ended for everyone");
+
+      // End the call and update interview status in the background
+      // This ensures users don't have to wait for these operations
+      // Learn this kind of optimisation techniques :)
+      Promise.all([
+        call.endCall(), // -> takes too long
+        updateInterviewStatus({
+          id: interview._id,
+          status: "completed",
+        }),
+      ])
+        .then(() => {
+          toast.dismiss();
+          toast.success("Meeting ended for everyone");
+        })
+        .catch((error) => {
+          console.log(error);
+          toast.error("Failed to end meeting properly");
+        });
     } catch (error) {
+      setIsEnding(false);
       console.log(error);
-      toast.error("Failed to end for everyone");
+      toast.error("Failed to end the meeting");
     }
   };
 
   return (
-    <Button variant={"destructive"} onClick={endCall}>
-      End for Everyone
+    <Button variant={"destructive"} onClick={endCall} disabled={isEnding}>
+      {isEnding ? "Ending..." : "End for Everyone"}
     </Button>
   );
 }
