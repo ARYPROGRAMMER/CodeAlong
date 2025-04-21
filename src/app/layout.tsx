@@ -7,6 +7,7 @@ import "@stream-io/video-react-sdk/dist/css/styles.css";
 import "./globals.css";
 import { Comfortaa } from "next/font/google";
 import { Toaster } from "react-hot-toast";
+import { Analytics } from "@vercel/analytics/react"
 
 const comfortaa = Comfortaa({
   variable: "--font-comfortaa",
@@ -44,6 +45,7 @@ export default function RootLayout({
               <RedirectToSignIn />
             </SignedOut>
           </ThemeProvider>
+          <Analytics />
           <Toaster />
         </body>
       </html>
